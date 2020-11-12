@@ -46,14 +46,17 @@ const Wrapper = styled.div`
     z-index: 1;
 
     a {
-      color: black;
+      display: block;
       padding: 10px 20px;
       text-decoration: none;
-      display: block;
-      color: var(--light-theme-text);
+      color: ${props => props.theme.text};
 
       &:hover {
         background-color: ${props => props.theme.hover};
+      }
+
+      &.tick:before {
+        content: '✔️';
       }
     }
   }

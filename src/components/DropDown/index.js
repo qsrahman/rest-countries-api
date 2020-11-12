@@ -1,12 +1,18 @@
 import React from 'react'
 import Wrapper from './style'
 
-const DropDown = ({ searchByRegion }) => {
+const DropDown = ({ region, searchByRegion }) => {
   const handleClick = e => {
     e.preventDefault()
 
-    if (e.target.pathname) {
-      searchByRegion(e.target.pathname.substring(1))
+    const pathname = e.target.pathname ? e.target.pathname.substring(1) : ''
+
+    if (pathname) {
+      if (pathname === region) {
+        searchByRegion('')
+      } else {
+        searchByRegion(pathname)
+      }
     } else {
       searchByRegion('')
     }
@@ -18,19 +24,34 @@ const DropDown = ({ searchByRegion }) => {
         Filter by Region <i className='fa fa-caret-down'></i>
       </button>
       <div className='dropdown-menu'>
-        <a href='africa' onClick={handleClick}>
+        <a
+          className={region === 'africa' ? 'tick' : ''}
+          href='africa'
+          onClick={handleClick}>
           Africa
         </a>
-        <a href='america' onClick={handleClick}>
+        <a
+          className={region === 'america' ? 'tick' : ''}
+          href='america'
+          onClick={handleClick}>
           America
         </a>
-        <a href='asia' onClick={handleClick}>
+        <a
+          className={region === 'asia' ? 'tick' : ''}
+          href='asia'
+          onClick={handleClick}>
           Asia
         </a>
-        <a href='europe' onClick={handleClick}>
+        <a
+          className={region === 'europe' ? 'tick' : ''}
+          href='europe'
+          onClick={handleClick}>
           Europe
         </a>
-        <a href='oceania' onClick={handleClick}>
+        <a
+          className={region === 'oceania' ? 'tick' : ''}
+          href='oceania'
+          onClick={handleClick}>
           Oceania
         </a>
       </div>

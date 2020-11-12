@@ -16,6 +16,8 @@ const App = () => {
   const [borders, setBorders] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [toggleDetail, setToggleDetail] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [region, setRegion] = useState('')
 
   useEffect(() => {
     fetch('https://restcountries.eu/rest/v2/all')
@@ -29,16 +31,30 @@ const App = () => {
       .catch(error => console.log('Error:', error))
   }, [])
 
-  const searchName = text => {
-    setFilteredCountries(
-      countries.filter(c => c.name.toLowerCase().includes(text.toLowerCase()))
+  const searchByName = text => {
+    const filteredCountriesByRegion = countries.filter(c =>
+      c.region.toLowerCase().includes(region.toLowerCase())
     )
+
+    setFilteredCountries(
+      filteredCountriesByRegion.filter(c =>
+        c.name.toLowerCase().includes(text.trim().toLowerCase())
+      )
+    )
+    setSearchTerm(text.trim())
   }
 
   const searchByRegion = text => {
-    setFilteredCountries(
-      countries.filter(c => c.region.toLowerCase().includes(text.toLowerCase()))
+    const filteredCountriesByName = countries.filter(c =>
+      c.name.toLowerCase().includes(searchTerm.trim().toLowerCase())
     )
+
+    setFilteredCountries(
+      filteredCountriesByName.filter(c =>
+        c.region.toLowerCase().includes(text.toLowerCase())
+      )
+    )
+    setRegion(text)
   }
 
   const findBorders = c => {
@@ -72,7 +88,7 @@ const App = () => {
 
   const handleClickBack = () => {
     if (toggleDetail) {
-      searchName('')
+      // searchByName('')
       return setToggleDetail(!toggleDetail)
     }
   }
@@ -93,8 +109,8 @@ const App = () => {
       <Container>
         {!toggleDetail ? (
           <SearchBar>
-            <Search searchName={searchName} />
-            <DropDown searchByRegion={searchByRegion} />
+            <Search searchTerm={searchTerm} searchByName={searchByName} />
+            <DropDown region={region} searchByRegion={searchByRegion} />
           </SearchBar>
         ) : null}
         {isLoading ? (

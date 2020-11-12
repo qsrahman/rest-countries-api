@@ -30,9 +30,9 @@ export const Country = styled.div`
     border-bottom: 1px solid ${props => props.theme.bgBody};
 
     img {
+      display: block;
       width: 100%;
       height: 160px;
-      display: block;
       object-fit: cover;
     }
   }
